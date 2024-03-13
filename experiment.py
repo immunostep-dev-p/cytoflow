@@ -44,7 +44,7 @@ count = new_experiment2[["FP"]].groupby(by = new_experiment2["FP"]).count()
 count
 print(count)
 
-umbral = abs(new_experiment2["R1-A"].max()/new_experiment2["R1-A"].min())
+umbral = abs(new_experiment2["R1-A"].max() / new_experiment2["R1-A"].min())
 umbral
 print(umbral)
 
