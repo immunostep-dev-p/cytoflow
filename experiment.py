@@ -28,7 +28,7 @@ experiment_gaussian_mixture = gaussian_mixture.apply(experiment)
 
 gaussian_mixture.default_view().plot(experiment_gaussian_mixture, alpha = 0.1)
 
-new_experiment = cytoflow.ImportOp(tubes = [cytoflow.Tube(file = f)]).apply()
+new_experiment = cytoflow.ImportOp(tubes = [tube]).apply()
 new_experiment
 # print(new_experiment)
 
