@@ -3,7 +3,7 @@ import cytoflow
 # import matplotlib
 import numpy
 
-f = r"C:\Users\pract\Documents\Practicas\4.fcs"
+f = r"1.fcs"
 tube = cytoflow.Tube(file = f)
 
 import_op = cytoflow.ImportOp(tubes = [tube], channels = {"R1-A" : "R1-A", "B8-A" : "B8-A"})
