@@ -11,15 +11,15 @@ experiment = import_op.apply()
 experiment
 # print(experiment)
 
-range2d = cytoflow.Range2DOp(name = "Test", xchannel = "R1-A", ychannel = "B8-A")
+range_2_d = cytoflow.Range2DOp(name = "Test", xchannel = "R1-A", ychannel = "B8-A")
 
-range2d.default_view(xscale = "logicle", yscale = "logicle", interactive = True).plot(experiment)
+range_2_d.default_view(xscale = "logicle", yscale = "logicle", interactive = True).plot(experiment)
 cytoflow.DensityView(xchannel = "R1-A", xscale = "logicle", ychannel = "B8-A", yscale = "logicle").plot(experiment, gridsize = 100, smoothed = True)
 
-kmeans = cytoflow.KMeansOp(name = "KMeans", channels = ["R1-A", "B8-A"], scale = {"R1-A" : "logicle", "B8-A" : "logicle"}, num_clusters = 5)
-kmeans.estimate(experiment)
-experiment_kmeans = kmeans.apply(experiment)
-kmeans.default_view().plot(experiment_kmeans)
+k_means = cytoflow.KMeansOp(name = "KMeans", channels = ["R1-A", "B8-A"], scale = {"R1-A" : "logicle", "B8-A" : "logicle"}, num_clusters = 5)
+k_means.estimate(experiment)
+experiment_kmeans = k_means.apply(experiment)
+k_means.default_view().plot(experiment_kmeans)
 
 gaussian_mixture = cytoflow.GaussianMixtureOp(name = "GaussianMixture", channels = ["R1-A", "B8-A"], scale = {"R1-A" : "logicle", "B8-A" : "logicle"}, num_components = 2)
 
@@ -58,11 +58,11 @@ cluster = new_experiment_flow_peaks[["FlowPeaks"]].drop(indice).groupby(by = new
 cluster
 # print(cluster)
 
-pcluster = cluster.index[numpy.argmax(cluster.to_numpy())]
-pcluster
-# print(pcluster)
+p_cluster = cluster.index[numpy.argmax(cluster.to_numpy())]
+p_cluster
+# print(p_cluster)
 
-bead_cluster = new_experiment_flow_peaks[new_experiment_flow_peaks["FlowPeaks"] == pcluster]
+bead_cluster = new_experiment_flow_peaks[new_experiment_flow_peaks["FlowPeaks"] == p_cluster]
 bead_cluster
 # print(bead_cluster)
 
