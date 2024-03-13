@@ -1,6 +1,4 @@
 import cytoflow
-# import pandas
-# import matplotlib
 import numpy
 
 f = r"1.fcs"
@@ -11,7 +9,7 @@ experiment = import_op.apply()
 experiment
 # print(experiment)
 
-range_2_d = cytoflow.Range2DOp(name = "Test", xchannel = "R1-A", ychannel = "B8-A")
+range_2_d = cytoflow.Range2DOp(name = "Range2D", xchannel = "R1-A", ychannel = "B8-A")
 
 range_2_d.default_view(xscale = "logicle", yscale = "logicle", interactive = True).plot(experiment)
 cytoflow.DensityView(xchannel = "R1-A", xscale = "logicle", ychannel = "B8-A", yscale = "logicle").plot(experiment, gridsize = 100, smoothed = True)

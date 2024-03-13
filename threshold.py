@@ -1,16 +1,20 @@
 import cytoflow
 
 f = r"1.fcs"
-tube = cytoflow.Tube(file = f, conditions = {"Dox" : 10.0})
+tube = cytoflow.Tube(file = f)
 
-import_op = cytoflow.ImportOp()
-import_op.tubes = [tube]
-import_op.conditions = {"Dox" : "float"}
+import_op = cytoflow.ImportOp(tubes = [tube], channels = {"R1-A" : "R1-A", "B8-A" : "B8-A"})
 experiment = import_op.apply()
-
-threshold_op = cytoflow.ThresholdOp(name = "Threshold", channel = "R1-A", threshold = 2000)
-
-threshold_view = threshold_op.default_view(scale = "log", interactive = True)
-threshold_view.plot(experiment)
-
+experiment
 # print(experiment)
+
+threshold = cytoflow.ThresholdOp(name = "Threshold", channel = "R1-A", threshold = 2000)
+
+threshold.default_view(scale = "logicle", interactive = True).plot(experiment)
+
+experiment2 = threshold.apply(experiment)
+experiment2.data.groupby('Threshold').size()
+
+threshold = cytoflow.ThresholdOp(name = "Threshold", channel = "R1-A")
+threshold.default_view(interactive = True).plot(experiment2)
+experiment3 = thresh.apply(experiment2)
