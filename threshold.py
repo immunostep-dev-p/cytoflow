@@ -8,13 +8,13 @@ experiment = import_op.apply()
 experiment
 # print(experiment)
 
-threshold = cytoflow.ThresholdOp(name = "Threshold", channel = "R1-A", threshold = 2000)
+threshold_op = cytoflow.ThresholdOp(name = "Threshold", channel = "R1-A", threshold = 2000)
 
-threshold.default_view(scale = "logicle", interactive = True).plot(experiment)
+threshold_op.default_view(scale = "logicle", interactive = True).plot(experiment)
 
-experiment2 = threshold.apply(experiment)
+experiment2 = threshold_op.apply(experiment)
 experiment2.data.groupby('Threshold').size()
 
-threshold = cytoflow.ThresholdOp(name = "Threshold2", channel = "R1-A", threshold = 2000)
-threshold.default_view(interactive = True).plot(experiment2)
-experiment3 = threshold.apply(experiment2)
+threshold_op = cytoflow.ThresholdOp(name = "Threshold2", channel = "R1-A", threshold = 2000)
+threshold_op.default_view(interactive = True).plot(experiment2)
+experiment3 = threshold_op.apply(experiment2)
