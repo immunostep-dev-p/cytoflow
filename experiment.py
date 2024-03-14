@@ -26,7 +26,7 @@ experiment_gaussian_mixture = gaussian_mixture_op.apply(experiment)
 
 gaussian_mixture_op.default_view().plot(experiment_gaussian_mixture, alpha = 0.1)
 
-import_op = cytoflow.ImportOp(tubes = [tube], channels = {"R1-A" : "R1-A", "B8-A" : "B8-A"})
+import_op = cytoflow.ImportOp(tubes = [tube])
 new_experiment = import_op.apply()
 new_experiment
 # print(new_experiment)
