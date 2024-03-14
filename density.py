@@ -8,10 +8,10 @@ experiment = import_op.apply()
 experiment
 # print(experiment)
 
-density_gate = cytoflow.DensityGateOp(name = "Density", xchannel = "R1-A", xscale = "logicle", ychannel = "B8-A", yscale = "logicle", keep = 0.5)
+density_gate_op = cytoflow.DensityGateOp(name = "Density", xchannel = "R1-A", xscale = "logicle", ychannel = "B8-A", yscale = "logicle", keep = 0.5)
 
-density_gate.estimate(experiment)
+density_gate_op.estimate(experiment)
 
-density_gate.default_view().plot(experiment)
+density_gate_op.default_view().plot(experiment)
 
-experiment2 = density_gate.apply(experiment)
+experiment2 = density_gate_op.apply(experiment)
