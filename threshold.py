@@ -15,6 +15,6 @@ threshold.default_view(scale = "logicle", interactive = True).plot(experiment)
 experiment2 = threshold.apply(experiment)
 experiment2.data.groupby('Threshold').size()
 
-threshold = cytoflow.ThresholdOp(name = "Threshold", channel = "R1-A")
+threshold = cytoflow.ThresholdOp(name = "Threshold2", channel = "R1-A", threshold = 2000)
 threshold.default_view(interactive = True).plot(experiment2)
-experiment3 = thresh.apply(experiment2)
+experiment3 = threshold.apply(experiment2)
