@@ -26,7 +26,7 @@ experiment_gaussian_mixture = gaussian_mixture_op.apply(experiment)
 
 gaussian_mixture_op.default_view().plot(experiment_gaussian_mixture, alpha = 0.1)
 
-import_op = cytoflow.ImportOp(tubes = [tube])
+import_op = cytoflow.ImportOp(tubes = [tube], channels = {"R1-A" : "R1-A", "B8-A" : "B8-A", "B4-A" : "B4-A"})
 new_experiment = import_op.apply()
 new_experiment
 # print(new_experiment)
@@ -77,10 +77,6 @@ full_stats = bead_cluster.describe()
 full_stats
 # print(full_stats)
 
-keywords = new_experiment_flow_peaks.metadata
-number_events = new_experiment_flow_peaks.data.shape[0]
-channels = new_experiment_flow_peaks.channels
-
-print(f"   Palabras clave: {keywords}")
-print(f"Número de eventos: {number_events}")
-print(f"          Canales: {channels}")
+print(f"        Keywords: {new_experiment_flow_peaks.metadata}")
+print(f"Number of events: {new_experiment_flow_peaks.data.shape[0]}")
+print(f"        Channels: {new_experiment_flow_peaks.channels}")
