@@ -43,6 +43,8 @@ flow_peaks_op.default_view().plot(experiment_flow_peaks)
 sorted_data = numpy.sort(experiment_flow_peaks["B4-A"])
 # Obtenemos el número total de datos
 total_number_data = len(sorted_data)
+# Definimos e inicializamos la variable de la Intesidad Mediana de Fluorescencia (IMF)
+median_fluorescence_intensity = 0.0
 # Si el número de datos es par
 if total_number_data % 2 == 0:
     median_fluorescence_intensity = (sorted_data[total_number_data // 2 - 1] + sorted_data[total_number_data // 2]) / 2
