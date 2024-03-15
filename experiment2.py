@@ -39,7 +39,7 @@ count
 
 flow_peaks_op.default_view().plot(experiment_flow_peaks)
 
-# Ordenamos los datos
+# Ordenamos los datos del experimento en el canal deseado
 sorted_data = numpy.sort(experiment_flow_peaks["B4-A"])
 # Obtenemos el número total de datos
 total_number_data = len(sorted_data)
