@@ -76,3 +76,11 @@ stats
 full_stats = bead_cluster.describe()
 full_stats
 # print(full_stats)
+
+keywords = new_experiment_flow_peaks.metadata
+number_events = new_experiment_flow_peaks.data.shape[0]
+channels = new_experiment_flow_peaks.channels
+
+print(f"   Palabras clave: {keywords}")
+print(f"Número de eventos: {number_events}")
+print(f"          Canales: {channels}")
