@@ -1,9 +1,9 @@
-from tkinter import *
-from ttkbootstrap import *
-from cytoflow import *
-from numpy import *
-from os import *
-from matplotlib.pyplot import *
+from tkinter import Frame, BOTH, CENTER, END
+from ttkbootstrap import Window, Treeview, SUCCESS
+from cytoflow import Tube, ImportOp, ThresholdOp, DensityGateOp, FlowPeaksOp
+from numpy import argmax, sort
+from os import path
+from matplotlib.pyplot import subplots, close
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # Variables globales
@@ -24,16 +24,15 @@ def main():
     # Generamos la ventana con un tema específico y un título
     root = Window(themename = theme_name)
     root.title(application_title)
-    # main_frame = Frame(root, bootstyle = "warning")
-    # main_frame.pack(fill = BOTH, expand = True)
     
     # Centramos la ventana en la pantalla
     center_window(root)
+
+    # La ventana que generará maximizada
     root.state("zoomed")
 
     # Generamos la tabla de datos
     generate_treeview(root)
-    # generate_treeview(main_frame)
 
     # Generamos el hilo que genera la ventana del programa
     root.mainloop()
@@ -56,26 +55,24 @@ def center_window(root, window_width = 800, window_height = 600):
 
 # Función que genera la tabla con los datos
 def generate_treeview(root):
-# def generate_treeview(main_frame):
     '''
     Función que genera la tabla con los datos
     '''
-    frame1 = Frame(root)
-    # frame1 = Frame(main_frame, bootstyle = "info")
-    frame1.place(relx = 0, rely = 0, relwidth = 1, relheight = 0.5)
-    # frame.pack(side = LEFT, fill = BOTH, expand = True)
-    
+    # Creamos un frame en que generaremos el treeview
+    frame = Frame(root)
+    frame.place(relx = 0, rely = 0, relwidth = 1, relheight = 0.5)
+
     # Definimos las columnas
     columns = ("nombre_fichero", "numero_eventos_total", "numero_eventos_cluster_interes", "porcentaje_representa_numero_eventos_cluster_interes_sobre_total", "imf_cluster_interes")
 
     # Creamos el Treeview
-    treeview = Treeview(frame1, bootstyle = "success", columns = columns, show = "headings")
-    treeview.pack()
-    treeview.column("nombre_fichero", width = 350, anchor = "center")
-    treeview.column("numero_eventos_total", width = 100, anchor = "center")
-    treeview.column("numero_eventos_cluster_interes", width = 125, anchor = "center")
-    treeview.column("porcentaje_representa_numero_eventos_cluster_interes_sobre_total", width = 150, anchor = "center")
-    treeview.column("imf_cluster_interes", width = 75, anchor = "center")
+    treeview = Treeview(frame, bootstyle = SUCCESS, columns = columns, show = "headings") # NOTA: Para mostrar la columna #0, poner el atributo show = "tree headings"
+    treeview.pack(fill = BOTH, expand = True)
+    treeview.column("nombre_fichero", width = 350, anchor = CENTER)
+    treeview.column("numero_eventos_total", width = 100, anchor = CENTER)
+    treeview.column("numero_eventos_cluster_interes", width = 125, anchor = CENTER)
+    treeview.column("porcentaje_representa_numero_eventos_cluster_interes_sobre_total", width = 150, anchor = CENTER)
+    treeview.column("imf_cluster_interes", width = 75, anchor = CENTER)
 
     # Definimos las cabeceras
     treeview.heading("nombre_fichero", text = "Nombre fichero")
@@ -86,20 +83,16 @@ def generate_treeview(root):
 
     # Añadimos los datos al Treeview
     add_data_treeview(root, treeview)
-    # add_data_treeview(main_frame, treeview)
 
 # Función que añade los datos a la tabla
 def add_data_treeview(root, treeview):
-# def add_data_treeview(main_frame, treeview):
     '''
     Función que añade los datos a la tabla
     '''
     treeview.insert("", END, values = new_experiment(root, f))
-    # treeview.insert("", END, values = new_experiment(main_frame, f))
 
 # Función en la que aplicamos operaciones sobre el experimento y retornamos: el nombre del fichero, el nº de eventos total, el nº de eventos del cluster de interés, el % que representa el nº de eventos del cluster de interés sobre el total y la IMF del cluster de interés
 def new_experiment(root, f):
-# def new_experiment(main_frame, f):
     '''
     Función en la que aplicamos operaciones sobre el experimento y retornamos: el nombre del fichero, el nº de eventos total, el nº de eventos del cluster de interés, el % que representa el nº de eventos del cluster de interés sobre el total y la IMF del cluster de interés
     '''
@@ -129,7 +122,6 @@ def new_experiment(root, f):
 
     # Una vez realizadas las opereaciones, pintamos la gráfica de puntos en la ventana del programa
     generate_canvas(root, experiment_flow_peaks)
-    # generate_canvas(main_frame, experiment_flow_peaks)
 
     # Asignamos a variables los datos que queremos retornar del experimento
     file_name = path.basename(f)
@@ -161,14 +153,12 @@ def median_fluorescence_intensity_cluster_interest(experiment_flow_peaks):
 
 # Función que pinta los eventos del cluster en la ventana del programa
 def generate_canvas(root, experiment_flow_peaks):
-# def generate_canvas(main_frame, experiment_flow_peaks):
     '''
     Función que pinta los eventos del cluster en la ventana del programa
     '''
-    frame2 = Frame(root)
-    # frame2 = Frame(main_frame, bootstyle = "danger")
-    frame2.place(relx = 0, rely = 0.5, relwidth = 1, relheight = 0.5)
-    # frame.pack(side = LEFT, fill = BOTH, expand = True)
+    # Creamos un frame en que generaremos el canvas
+    frame = Frame(root)
+    frame.place(relx = 0, rely = 0.5, relwidth = 1, relheight = 0.5)
 
     data_frame = experiment_flow_peaks.data
 
@@ -179,16 +169,15 @@ def generate_canvas(root, experiment_flow_peaks):
     clusters = data_frame[cluster_name].unique()
     for cluster in clusters:
         data_frame_cluster = data_frame[data_frame[cluster_name] == cluster]
-        axes.scatter(data_frame_cluster[xchannel], data_frame_cluster[ychannel], label = f"{cluster_name} {cluster}", s = 5)
+        axes.scatter(data_frame_cluster[xchannel], data_frame_cluster[ychannel], label = f"{cluster_name} {cluster}", s = 5, color = "green")
 
     # Mostramos la leyenda
     axes.legend()
     
     # Crear el canvas de tkinter y añadir la figura de matplotlib
-    figure_canvas_tk_agg = FigureCanvasTkAgg(figure, master = frame2)
+    figure_canvas_tk_agg = FigureCanvasTkAgg(figure, master = frame)
     figure_canvas_tk_agg.draw()
-    figure_canvas_tk_agg.get_tk_widget().pack(pady = 10)
-    # figure_canvas_tk_agg.get_tk_widget().config(width = 300, height = 250)
+    figure_canvas_tk_agg.get_tk_widget().pack(fill = BOTH, expand = True)
     close(figure)
 
 # Si el nombre del módulo es igual a __main__ se ejecutará el código (esto se hace por si queremos utilizar este código como un módulo, y no queremos que ejecute el código del main)
