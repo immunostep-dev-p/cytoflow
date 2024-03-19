@@ -24,15 +24,16 @@ def main():
     # Generamos la ventana con un tema específico y un título
     root = Window(themename = theme_name)
     root.title(application_title)
-    main_frame = Frame(root, bootstyle = "warning")
-    main_frame.pack(fill = BOTH, expand = True)
+    # main_frame = Frame(root, bootstyle = "warning")
+    # main_frame.pack(fill = BOTH, expand = True)
     
     # Centramos la ventana en la pantalla
     center_window(root)
     root.state("zoomed")
 
     # Generamos la tabla de datos
-    generate_treeview(main_frame)
+    generate_treeview(root)
+    # generate_treeview(main_frame)
 
     # Generamos el hilo que genera la ventana del programa
     root.mainloop()
@@ -54,11 +55,13 @@ def center_window(root, window_width = 800, window_height = 600):
     root.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
 # Función que genera la tabla con los datos
-def generate_treeview(main_frame):
+def generate_treeview(root):
+# def generate_treeview(main_frame):
     '''
     Función que genera la tabla con los datos
     '''
-    frame1 = Frame(main_frame, bootstyle = "info")
+    frame1 = Frame(root)
+    # frame1 = Frame(main_frame, bootstyle = "info")
     frame1.place(relx = 0, rely = 0, relwidth = 1, relheight = 0.5)
     # frame.pack(side = LEFT, fill = BOTH, expand = True)
     
@@ -82,17 +85,21 @@ def generate_treeview(main_frame):
     treeview.heading("imf_cluster_interes", text = "IMF cluster")
 
     # Añadimos los datos al Treeview
-    add_data_treeview(main_frame, treeview)
+    add_data_treeview(root, treeview)
+    # add_data_treeview(main_frame, treeview)
 
 # Función que añade los datos a la tabla
-def add_data_treeview(main_frame, treeview):
+def add_data_treeview(root, treeview):
+# def add_data_treeview(main_frame, treeview):
     '''
     Función que añade los datos a la tabla
     '''
-    treeview.insert("", END, values = new_experiment(main_frame, f))
+    treeview.insert("", END, values = new_experiment(root, f))
+    # treeview.insert("", END, values = new_experiment(main_frame, f))
 
 # Función en la que aplicamos operaciones sobre el experimento y retornamos: el nombre del fichero, el nº de eventos total, el nº de eventos del cluster de interés, el % que representa el nº de eventos del cluster de interés sobre el total y la IMF del cluster de interés
-def new_experiment(main_frame, f):
+def new_experiment(root, f):
+# def new_experiment(main_frame, f):
     '''
     Función en la que aplicamos operaciones sobre el experimento y retornamos: el nombre del fichero, el nº de eventos total, el nº de eventos del cluster de interés, el % que representa el nº de eventos del cluster de interés sobre el total y la IMF del cluster de interés
     '''
@@ -121,7 +128,8 @@ def new_experiment(main_frame, f):
     argmax(experiment_flow_peaks[[cluster_name]].groupby(by = experiment_flow_peaks[cluster_name]).count())
 
     # Una vez realizadas las opereaciones, pintamos la gráfica de puntos en la ventana del programa
-    generate_canvas(main_frame, experiment_flow_peaks)
+    generate_canvas(root, experiment_flow_peaks)
+    # generate_canvas(main_frame, experiment_flow_peaks)
 
     # Asignamos a variables los datos que queremos retornar del experimento
     file_name = path.basename(f)
@@ -152,11 +160,13 @@ def median_fluorescence_intensity_cluster_interest(experiment_flow_peaks):
         return sorted_data[total_number_data // 2]
 
 # Función que pinta los eventos del cluster en la ventana del programa
-def generate_canvas(main_frame, experiment_flow_peaks):
+def generate_canvas(root, experiment_flow_peaks):
+# def generate_canvas(main_frame, experiment_flow_peaks):
     '''
     Función que pinta los eventos del cluster en la ventana del programa
     '''
-    frame2 = Frame(main_frame, bootstyle = "danger")
+    frame2 = Frame(root)
+    # frame2 = Frame(main_frame, bootstyle = "danger")
     frame2.place(relx = 0, rely = 0.5, relwidth = 1, relheight = 0.5)
     # frame.pack(side = LEFT, fill = BOTH, expand = True)
 
@@ -169,7 +179,7 @@ def generate_canvas(main_frame, experiment_flow_peaks):
     clusters = data_frame[cluster_name].unique()
     for cluster in clusters:
         data_frame_cluster = data_frame[data_frame[cluster_name] == cluster]
-        axes.scatter(data_frame_cluster[xchannel], data_frame_cluster[ychannel], label = f"{cluster_name} {cluster}")
+        axes.scatter(data_frame_cluster[xchannel], data_frame_cluster[ychannel], label = f"{cluster_name} {cluster}", s = 5)
 
     # Mostramos la leyenda
     axes.legend()
@@ -179,6 +189,7 @@ def generate_canvas(main_frame, experiment_flow_peaks):
     figure_canvas_tk_agg.draw()
     figure_canvas_tk_agg.get_tk_widget().pack(pady = 10)
     # figure_canvas_tk_agg.get_tk_widget().config(width = 300, height = 250)
+    close(figure)
 
 # Si el nombre del módulo es igual a __main__ se ejecutará el código (esto se hace por si queremos utilizar este código como un módulo, y no queremos que ejecute el código del main)
 if __name__ == "__main__":
